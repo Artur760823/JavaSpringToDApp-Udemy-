@@ -1,17 +1,18 @@
 package com.artur.toDoApp.model;
-//class to communicate with DB
-//from where it will take data and withu what key JpaRepo<From where, key>
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
-import org.springframework.data.rest.core.annotation.RestResource;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
-@Repository//with all CRUD
-public interface TaskRepository extends JpaRepository<Task, Integer> {
-
-    @RestResource(path="done", rel="done")
+//white list of methods
+public interface TaskRepository {
+    List<Task> findAll();
+    Optional<Task> findById(Integer id);
+    boolean existsById(Integer id);
     List<Task> findByDone(@Param("state") boolean done);
+    Task save(Task entity);
+    Page<Task> findAll(Pageable page);
 }
